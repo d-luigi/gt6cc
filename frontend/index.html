@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GTA VI Cheats</title>
+</head>
+<body>
+  <canvas id="bg"></canvas>
+  <main>
+    <header class="hero">
+      <h1>GTA VI Cheats</h1>
+      <p class="sub">Codes, tricks and community tips.</p>
+    </header>
+    <p class="note">Finish the story to use cheats. Using one disables trophies and saving for that session. <span id="count"></span></p>
+    <section class="bar">
+      <input id="q" type="search" placeholder="Search cheats…" aria-label="Search cheats" />
+      <div class="row"><span class="label">Category</span><div id="cats" class="chips"></div></div>
+      <div class="row" id="subs-row" hidden><span class="label">Type</span><div id="subs" class="chips"></div></div>
+      <div class="row"><span class="label">Status</span><div id="status" class="chips"></div></div>
+    </section>
+    <p id="results" class="note"></p>
+    <section id="grid" class="grid" aria-live="polite"></section>
+  </main>
+  <div id="backdrop"></div>
+  <aside id="drawer" class="drawer" aria-label="Cheat details"></aside>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
