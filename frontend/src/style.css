@@ -10,7 +10,7 @@ h1 { font-size: clamp(2rem, 6vw, 3.2rem); margin: 0 0 6px; letter-spacing: -.02e
 .sub { margin: 0; opacity: .65; }
 
 .bar { display: grid; gap: 12px; margin-bottom: 12px; }
-#q { width: 100%; max-width: 420px; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--line); background: var(--card); color: inherit; outline: none; }
+#q { flex: 1; min-width: 0; max-width: 420px; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--line); background: var(--card); color: inherit; outline: none; }
 #q:focus { border-color: var(--accent); }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .chip { cursor: pointer; padding: 7px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--card); color: inherit; text-transform: capitalize; }
@@ -105,3 +105,24 @@ kbd.done { opacity: .35; }
 .drawer .chip.on { background: var(--c); border-color: var(--c); color: #0b0b14; }
 
 @media (prefers-reduced-motion: reduce) { .pad.hit::after, .caption.swap { animation: none; } .demo-wrap { transition: none; } }
+
+.search { display: flex; gap: 10px; align-items: center; }
+.filter-wrap { position: relative; }
+.fbtn { display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 10px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--card); color: inherit; font: inherit; font-weight: 600; }
+.fbtn:hover, .fbtn[aria-expanded="true"] { border-color: var(--accent); }
+.badge { min-width: 20px; padding: 1px 6px; border-radius: 999px; background: var(--accent); color: #fff; font-size: .75rem; text-align: center; }
+.badge[hidden] { display: none; }
+.panel { position: absolute; z-index: 5; top: calc(100% + 8px); right: 0; width: min(440px, calc(100vw - 40px)); display: grid; gap: 16px; padding: 16px; border-radius: 12px; background: #12121e; border: 1px solid var(--line); box-shadow: 0 16px 40px rgba(0, 0, 0, .5); animation: pop .15s ease; }
+.panel[hidden] { display: none; }
+@keyframes pop { from { opacity: 0; transform: translateY(-4px); } }
+.group { display: grid; gap: 8px; }
+.group[hidden] { display: none; }
+.group .label { width: auto; }
+.linkbtn { justify-self: end; background: none; border: 0; color: var(--accent); font: inherit; font-size: .85rem; cursor: pointer; }
+.linkbtn:hover { text-decoration: underline; }
+#active:empty { display: none; }
+
+.card { display: flex; flex-direction: column; }
+.card-foot { margin-top: auto; padding-top: 14px; }
+.card-foot .ctl { width: 100%; }
+.panel .hint { margin: 0; }

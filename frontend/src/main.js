@@ -3,11 +3,11 @@ import { initScene } from './scene.js';
 
 const scene = initScene(document.getElementById('bg'));
 const $ = (s) => document.querySelector(s);
-const state = { cheats: [], q: '', category: '', sub: '', status: '' };
+const state = { cheats: [], q: '', category: new Set(), sub: new Set(), status: new Set() };
 
 const ARROW = { Up: '↑', Down: '↓', Left: '←', Right: '→' };
 const CONSOLES = [['PS5', 'L1 + R1'], ['Xbox', 'LB + RB']];
-const STATUS = [['', 'All'], ['discovered', 'Discovered'], ['undiscovered', 'Not yet discovered']];
+const STATUS = [['discovered', 'Discovered'], ['undiscovered', 'Not Yet Discovered']];
 
 // Tiny DOM helper. Everything uses textContent, so comment text is never parsed as HTML.
 const h = (tag, props = {}, ...kids) => {
@@ -31,18 +31,35 @@ async function api(path, opts) {
   return data;
 }
 
+// Filters are multi-select: values inside a group are OR'd, groups are AND'd.
+function toggleFilter(key, v) {
+  const set = state[key];
+  if (set.has(v)) set.delete(v); else set.add(v);
+  if (key === 'category') {
+    // Drop selected types that no longer belong to a selected category.
+    const valid = new Set(state.cheats.filter((c) => state.category.has(c.category)).map((c) => c.subcategory));
+    state.sub = new Set([...state.sub].filter((x) => valid.has(x)));
+  }
+  drawFilters();
+  render();
+}
+
+function clearFilters() {
+  state.category = new Set();
+  state.sub = new Set();
+  state.status = new Set();
+  drawFilters();
+  render();
+}
+
 function chips(el, options, key) {
   el.replaceChildren(
     ...options.map(([v, label]) =>
       h('button', {
-        className: 'chip' + (state[key] === v ? ' on' : ''),
+        className: 'chip' + (state[key].has(v) ? ' on' : ''),
         textContent: label,
-        onclick: () => {
-          state[key] = v;
-          if (key === 'category') state.sub = '';
-          drawFilters();
-          render();
-        },
+        ariaPressed: String(state[key].has(v)),
+        onclick: () => toggleFilter(key, v),
       })
     )
   );
@@ -51,20 +68,33 @@ function chips(el, options, key) {
 function drawFilters() {
   const all = state.cheats;
   const cats = uniq(all.map((c) => c.category));
-  chips($('#cats'), [['', `All · ${all.length}`], ...cats.map((c) => [c, `${c} · ${all.filter((x) => x.category === c).length}`])], 'category');
-  const inCat = all.filter((c) => c.category === state.category);
-  const subs = uniq(inCat.map((c) => c.subcategory));
-  $('#subs-row').hidden = !state.category;
-  chips($('#subs'), [['', 'All'], ...subs.map((s) => [s, s])], 'sub');
+  chips($('#cats'), cats.map((c) => [c, `${c} · ${all.filter((x) => x.category === c).length}`]), 'category');
+  const subs = uniq(all.filter((c) => state.category.has(c.category)).map((c) => c.subcategory));
+  $('#subs-row').hidden = !subs.length;
+  chips($('#subs'), subs.map((x) => [x, x]), 'sub');
   chips($('#status'), STATUS, 'status');
+
+  // Filter button badge + removable chips for whatever is active
+  const active = ['category', 'sub', 'status'].flatMap((key) => [...state[key]].map((v) => [key, v]));
+  $('#fcount').hidden = !active.length;
+  $('#fcount').textContent = active.length;
+  $('#active').replaceChildren(
+    ...active.map(([key, v]) =>
+      h('button', {
+        className: 'chip on',
+        textContent: `${key === 'status' ? STATUS.find(([x]) => x === v)[1] : v} ×`,
+        onclick: () => toggleFilter(key, v),
+      })
+    )
+  );
 }
 
 function matches(c) {
   const q = state.q.toLowerCase();
   return (
-    (!state.category || c.category === state.category) &&
-    (!state.sub || c.subcategory === state.sub) &&
-    (!state.status || (state.status === 'discovered') === c.discovered) &&
+    (!state.category.size || state.category.has(c.category)) &&
+    (!state.sub.size || state.sub.has(c.subcategory)) &&
+    (!state.status.size || state.status.has(c.discovered ? 'discovered' : 'undiscovered')) &&
     (!q || `${c.title} ${c.description} ${c.unlock}`.toLowerCase().includes(q))
   );
 }
@@ -86,13 +116,17 @@ function card(c) {
     h('h3', { textContent: c.title }),
     c.discovered ? keys(c.input) : h('p', { className: 'undisc', textContent: 'Not yet discovered' }),
     h('p', { className: 'desc', textContent: c.description }),
-    h('p', { className: 'unlock', textContent: `Unlock: ${c.unlock}` })
+    h('p', { className: 'unlock', textContent: `Unlock: ${c.unlock}` }),
+    c.discovered
+      ? h('div', { className: 'card-foot' },
+          h('button', { className: 'ctl', textContent: '▶  Watch demo', onclick: (e) => { e.stopPropagation(); openDrawer(c, true); } }))
+      : null
   );
   el.style.setProperty('--c', col);
   el.onpointerenter = () => { scene.setAccent(col); scene.pulse(); };
   el.onpointerleave = () => scene.setAccent();
   el.onclick = () => openDrawer(c);
-  el.onkeydown = (e) => e.key === 'Enter' && openDrawer(c);
+  el.onkeydown = (e) => e.target === el && e.key === 'Enter' && openDrawer(c);
   return el;
 }
 
@@ -106,7 +140,7 @@ const SPEEDS = [['0.25×', 0.25], ['0.5×', 0.5], ['1×', 1], ['2×', 2]];
 const restart = (el, cls) => { el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); };
 
 // Step-by-step animated walkthrough of the button presses.
-function demo(c) {
+function demo(c, autoplay = false) {
   const st = { i: -1, playing: false, speed: 0.5, con: 0, pressed: '', held: false, next: 0, rel: 0 };
   const steps = () => [
     { text: 'Press Up on the D-pad to open your phone', dir: 'Up', held: false },
@@ -190,6 +224,7 @@ function demo(c) {
     paint();
   };
   paint();
+  if (autoplay) toggle();
   return h('div', { className: 'demo' },
     h('div', { className: 'stage' }, h('div', { className: 'shoulders' }, sh), dpad),
     h('div', { className: 'track' }, fill),
@@ -204,7 +239,7 @@ function demo(c) {
 }
 
 // The demo is only built and shown when the user asks for it.
-function demoToggle(c) {
+function demoToggle(c, startOpen = false) {
   const inner = h('div', { className: 'demo-inner' });
   const wrap = h('div', { className: 'demo-wrap' }, inner);
   wrap.inert = true;
@@ -218,10 +253,19 @@ function demoToggle(c) {
     wrap.classList.toggle('open', open);
     btn.textContent = open ? 'Hide demo' : '▶  Watch demo';
   };
+  if (startOpen) {
+    // Opened from the card's own "Watch demo" button: show it and start playing.
+    open = built = true;
+    inner.append(demo(c, true));
+    wrap.inert = false;
+    btn.textContent = 'Hide demo';
+    setTimeout(() => wrap.classList.add('open'), 60);
+    setTimeout(() => wrap.scrollIntoView({ behavior: 'smooth', block: 'center' }), 450);
+  }
   return h('div', {}, btn, wrap);
 }
 
-async function openDrawer(c) {
+async function openDrawer(c, withDemo = false) {
   stopDemo();
   const col = color(c.category);
   scene.setAccent(col);
@@ -272,7 +316,7 @@ async function openDrawer(c) {
           h('div', { className: 'console' },
             h('div', {}, h('b', { textContent: name }), h('span', { textContent: ` · Hold ${hold}, then` })),
             keys(c.input))),
-        demoToggle(c))
+        demoToggle(c, withDemo))
     : h('p', { className: 'undisc', textContent: 'Not yet discovered. Nobody has found this input yet.' });
 
   $('#drawer').style.setProperty('--c', col);
@@ -299,8 +343,18 @@ async function init() {
     clearTimeout(t);
     t = setTimeout(() => { state.q = e.target.value; render(); }, 120);
   };
+  const panel = $('#filters'), fbtn = $('#filter-btn');
+  const setPanel = (open) => { panel.hidden = !open; fbtn.setAttribute('aria-expanded', String(open)); };
+  fbtn.onclick = () => setPanel(panel.hidden);
+  $('#clear').onclick = clearFilters;
+  // composedPath is fixed at dispatch time, so this still works after a chip re-render removes the clicked node.
+  document.addEventListener('click', (e) => {
+    if (!e.composedPath().includes($('.filter-wrap'))) setPanel(false);
+  });
   $('#backdrop').onclick = closeDrawer;
-  addEventListener('keydown', (e) => e.key === 'Escape' && closeDrawer());
+  addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { closeDrawer(); setPanel(false); }
+  });
 
   try {
     state.cheats = await api('/cheats');

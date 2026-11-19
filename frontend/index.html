@@ -14,10 +14,20 @@
     </header>
     <p class="note">Finish the story to use cheats. Using one disables trophies and saving for that session. <span id="count"></span></p>
     <section class="bar">
-      <input id="q" type="search" placeholder="Search cheats…" aria-label="Search cheats" />
-      <div class="row"><span class="label">Category</span><div id="cats" class="chips"></div></div>
-      <div class="row" id="subs-row" hidden><span class="label">Type</span><div id="subs" class="chips"></div></div>
-      <div class="row"><span class="label">Status</span><div id="status" class="chips"></div></div>
+      <div class="search">
+        <input id="q" type="search" placeholder="Search cheats…" aria-label="Search cheats" />
+        <div class="filter-wrap">
+          <button id="filter-btn" class="fbtn" aria-expanded="false" aria-controls="filters">Filters <span id="fcount" class="badge" hidden></span></button>
+          <div id="filters" class="panel" hidden>
+            <p class="hint">Select as many as you like.</p>
+            <div class="group"><span class="label">Category</span><div id="cats" class="chips"></div></div>
+            <div class="group" id="subs-row" hidden><span class="label">Type</span><div id="subs" class="chips"></div></div>
+            <div class="group"><span class="label">Status</span><div id="status" class="chips"></div></div>
+            <button id="clear" class="linkbtn">Clear all</button>
+          </div>
+        </div>
+      </div>
+      <div id="active" class="chips"></div>
     </section>
     <p id="results" class="note"></p>
     <section id="grid" class="grid" aria-live="polite"></section>
