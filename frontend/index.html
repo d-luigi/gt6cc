@@ -6,13 +6,13 @@
   <title>GTA VI Cheats</title>
 </head>
 <body>
-  <canvas id="bg"></canvas>
+  <canvas id="bg" aria-hidden="true"></canvas>
   <main>
     <header class="hero">
       <h1>GTA VI Cheats</h1>
       <p class="sub">Codes, tricks and community tips.</p>
     </header>
-    <p class="note">Finish the story to use cheats. Using one disables trophies and saving for that session. <span id="count"></span></p>
+    <p class="note">The guide reports that cheats unlock after the story and disable trophies and saving for the session. <span id="count"></span></p>
     <section class="bar">
       <div class="search">
         <input id="q" type="search" placeholder="Search cheats…" aria-label="Search cheats" />
@@ -33,7 +33,14 @@
     <section id="grid" class="grid" aria-live="polite"></section>
   </main>
   <div id="backdrop"></div>
-  <aside id="drawer" class="drawer" aria-label="Cheat details"></aside>
+  <aside id="drawer" class="drawer" aria-label="Cheat details" inert></aside>
+  <dialog id="demo-player" aria-labelledby="demo-title">
+    <header class="demo-heading">
+      <h2 id="demo-title"></h2>
+      <form method="dialog"><button class="ctl" autofocus>Close</button></form>
+    </header>
+    <div id="demo-body"></div>
+  </dialog>
   <script type="module" src="/src/main.js"></script>
 </body>
 </html>

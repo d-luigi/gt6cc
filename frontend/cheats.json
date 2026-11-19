@@ -1,0 +1,1045 @@
+[
+  {
+    "id": "250-000",
+    "title": "$250,000",
+    "category": "Player",
+    "subcategory": "Money",
+    "description": "Instantly gives you $250,000 (the only money cheat)",
+    "unlock": "Finish the story",
+    "input": [
+      "Up",
+      "Right",
+      "Down",
+      "Left",
+      "Up",
+      "Left",
+      "Down",
+      "Right"
+    ],
+    "discovered": true,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "drunk",
+    "title": "Drunk",
+    "category": "Player",
+    "subcategory": "Status",
+    "description": "Instantly makes you and your partner drunk",
+    "unlock": "Spend $2,500 on alcohol",
+    "input": [
+      "Up",
+      "Left",
+      "Right",
+      "Up",
+      "Up",
+      "Left",
+      "Right",
+      "Up",
+      "Left",
+      "Right"
+    ],
+    "discovered": true,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "raise-heat-level",
+    "title": "Raise Heat Level",
+    "category": "Player",
+    "subcategory": "Wanted Level",
+    "description": "Raises your level of heat across the map",
+    "unlock": "Lose a 3-star wanted level 25 times",
+    "input": [
+      "Left",
+      "Down",
+      "Right",
+      "Down",
+      "Up",
+      "Down",
+      "Up"
+    ],
+    "discovered": true,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "raise-wanted-level",
+    "title": "Raise Wanted Level",
+    "category": "Player",
+    "subcategory": "Wanted Level",
+    "description": "Raises your wanted level across the map",
+    "unlock": "Lose a 3-star wanted level 50 times",
+    "input": [
+      "Left",
+      "Down",
+      "Right",
+      "Down",
+      "Up",
+      "Right",
+      "Up"
+    ],
+    "discovered": true,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "unlimited-focus",
+    "title": "Unlimited Focus",
+    "category": "Player",
+    "subcategory": "Abilities",
+    "description": "Focus never runs out",
+    "unlock": "Finish the story",
+    "input": [
+      "Down",
+      "Up",
+      "Up",
+      "Down",
+      "Up",
+      "Down",
+      "Up",
+      "Down",
+      "Up",
+      "Right"
+    ],
+    "discovered": true,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "body-armor",
+    "title": "Body Armor",
+    "category": "Player",
+    "subcategory": "Abilities",
+    "description": "Adds body armor to your loadout",
+    "unlock": "Complete 100 workouts",
+    "input": [
+      "Down",
+      "Up",
+      "Left",
+      "Up",
+      "Up",
+      "Up",
+      "Up",
+      "Up",
+      "Down",
+      "Down"
+    ],
+    "discovered": true,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "no-fall-damage",
+    "title": "No Fall Damage",
+    "category": "Player",
+    "subcategory": "Abilities",
+    "description": "You are immune to fall damage",
+    "unlock": "Survive a freefall from 40 feet 20 times",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "parachute",
+    "title": "Parachute",
+    "category": "Player",
+    "subcategory": "Abilities",
+    "description": "Adds a parachute to your loadout",
+    "unlock": "Complete 50 skydives or base jumps from 300 feet or higher",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "max-ammo",
+    "title": "Max Ammo",
+    "category": "Weapons",
+    "subcategory": "Ammo",
+    "description": "Fills all ammo to maximum",
+    "unlock": "Win 25 bronze medals or higher at shooting ranges",
+    "input": [
+      "Down",
+      "Up",
+      "Right",
+      "Down",
+      "Left",
+      "Left",
+      "Up",
+      "Up",
+      "Down",
+      "Left"
+    ],
+    "discovered": true,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "infinite-ammo",
+    "title": "Infinite Ammo",
+    "category": "Weapons",
+    "subcategory": "Ammo",
+    "description": "Ammo never runs out",
+    "unlock": "Win 25 silver medals or higher at shooting ranges",
+    "input": [
+      "Down",
+      "Up",
+      "Right",
+      "Down",
+      "Left",
+      "Left",
+      "Up",
+      "Down",
+      "Down",
+      "Down"
+    ],
+    "discovered": true,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "no-reload",
+    "title": "No Reload",
+    "category": "Weapons",
+    "subcategory": "Ammo",
+    "description": "Ammo never runs out with no need to reload",
+    "unlock": "Win 25 gold medals at shooting ranges",
+    "input": [
+      "Down",
+      "Up",
+      "Right",
+      "Down",
+      "Left",
+      "Left",
+      "Up",
+      "Down",
+      "Down",
+      "Up"
+    ],
+    "discovered": true,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "incendiary-ammo",
+    "title": "Incendiary Ammo",
+    "category": "Weapons",
+    "subcategory": "Ammo",
+    "description": "All ammo is incendiary",
+    "unlock": "Burn 100 enemies with fire damage",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "attack-force",
+    "title": "Attack Force",
+    "category": "Weapons",
+    "subcategory": "Chaos",
+    "description": "Bullets and melee attacks launch targets on impact",
+    "unlock": "Finish the story",
+    "input": [
+      "Down",
+      "Up",
+      "Left",
+      "Left",
+      "Right",
+      "Down",
+      "Down",
+      "Up",
+      "Down"
+    ],
+    "discovered": true,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "exploding-balls",
+    "title": "Exploding Balls",
+    "category": "Weapons",
+    "subcategory": "Chaos",
+    "description": "Sports balls explode on impact",
+    "unlock": "Hit 20 enemies with explosive damage",
+    "input": [
+      "Down",
+      "Up",
+      "Left",
+      "Left",
+      "Right",
+      "Down",
+      "Down",
+      "Up",
+      "Right"
+    ],
+    "discovered": true,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "vehicle-force",
+    "title": "Vehicle Force",
+    "category": "Weapons",
+    "subcategory": "Chaos",
+    "description": "Vehicle collisions launch targets",
+    "unlock": "Kill 25 enemies with a vehicle (driving over civilians counts)",
+    "input": [
+      "Down",
+      "Up",
+      "Left",
+      "Left",
+      "Right",
+      "Down",
+      "Left",
+      "Up",
+      "Down"
+    ],
+    "discovered": true,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "exploding-bottles",
+    "title": "Exploding Bottles",
+    "category": "Weapons",
+    "subcategory": "Chaos",
+    "description": "All bottles explode when damaged",
+    "unlock": "Throw 100 molotovs",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "all-explosive-weapons",
+    "title": "All Explosive Weapons",
+    "category": "Weapons",
+    "subcategory": "Explosive Weapons",
+    "description": "Adds all explosive weapons to your loadout with full ammo",
+    "unlock": "Throw 100 grenades",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "explosive-shotgun",
+    "title": "Explosive Shotgun",
+    "category": "Weapons",
+    "subcategory": "Explosive Weapons",
+    "description": "Adds a Mason & Keen Shortstraw to your loadout that fires explosive shells",
+    "unlock": "Hit 100 enemies with explosive damage",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "hauners-h-at",
+    "title": "Hauners H-AT",
+    "category": "Weapons",
+    "subcategory": "Explosive Weapons",
+    "description": "Adds a Hauners H-AT to your loadout",
+    "unlock": "Blow up 100 vehicles",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "repair-vehicle",
+    "title": "Repair Vehicle",
+    "category": "Vehicles",
+    "subcategory": "Boosts",
+    "description": "Fully repairs your current vehicle",
+    "unlock": "Get 1st place in 10 races at Gellhorn Raceway, Thrillbilly Mud Club, and Boone Speedway",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "unlimited-nitrous",
+    "title": "Unlimited Nitrous",
+    "category": "Vehicles",
+    "subcategory": "Boosts",
+    "description": "Nitrous and fuel never run out on vehicles",
+    "unlock": "Complete 50 stunt jumps",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "maibatsu-boomazoom",
+    "title": "Maibatsu Boomazoom",
+    "category": "Vehicles",
+    "subcategory": "Other",
+    "description": "Spawns a Maibatsu Boomazoom",
+    "unlock": "Complete 5 shopping challenges",
+    "input": [
+      "Left",
+      "Up",
+      "Right",
+      "Down",
+      "Left",
+      "Left",
+      "Up",
+      "Left"
+    ],
+    "discovered": true,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "mtl-pumper",
+    "title": "MTL Pumper",
+    "category": "Vehicles",
+    "subcategory": "Heavy & Emergency",
+    "description": "Spawns an MTL Pumper",
+    "unlock": "Discover the MTL Pumper in the Progress menu",
+    "input": [
+      "Left",
+      "Up",
+      "Right",
+      "Down",
+      "Left",
+      "Right",
+      "Right",
+      "Up"
+    ],
+    "discovered": true,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "hvy-bulldozer",
+    "title": "HVY Bulldozer",
+    "category": "Vehicles",
+    "subcategory": "Heavy & Emergency",
+    "description": "Spawns an HVY Bulldozer",
+    "unlock": "Discover the HVY Bulldozer in the Progress menu",
+    "input": [
+      "Left",
+      "Up",
+      "Right",
+      "Down",
+      "Left",
+      "Right",
+      "Right",
+      "Down"
+    ],
+    "discovered": true,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "interstate-ambulance",
+    "title": "Interstate Ambulance",
+    "category": "Vehicles",
+    "subcategory": "Heavy & Emergency",
+    "description": "Spawns an Interstate Ambulance",
+    "unlock": "Discover the Interstate Ambulance in the Progress menu",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "airboat-09",
+    "title": "Airboat 09",
+    "category": "Vehicles",
+    "subcategory": "Boats",
+    "description": "Spawns an Airboat 09",
+    "unlock": "Complete 5 survival challenges",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "bravado-banshee",
+    "title": "Bravado Banshee",
+    "category": "Vehicles",
+    "subcategory": "Cars",
+    "description": "Spawns a Bravado Banshee",
+    "unlock": "Complete all combat challenges",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "tuff-bmx",
+    "title": "Tuff BMX",
+    "category": "Vehicles",
+    "subcategory": "Bikes",
+    "description": "Spawns a Tuff BMX",
+    "unlock": "Complete 5 fitness challenges",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "nagasaki-carbon-rs",
+    "title": "Nagasaki Carbon RS",
+    "category": "Vehicles",
+    "subcategory": "Bikes",
+    "description": "Spawns a Nagasaki Carbon RS",
+    "unlock": "Complete all exploration challenges",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "65-vapid-dominator",
+    "title": "'65 Vapid Dominator",
+    "category": "Vehicles",
+    "subcategory": "Cars",
+    "description": "Spawns a '65 Vapid Dominator",
+    "unlock": "Complete all fitness challenges",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "progen-emerus",
+    "title": "Progen Emerus",
+    "category": "Vehicles",
+    "subcategory": "Cars",
+    "description": "Spawns a Progen Emerus",
+    "unlock": "Complete all vehicle challenges",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "inflatable-flamingo",
+    "title": "Inflatable Flamingo",
+    "category": "Vehicles",
+    "subcategory": "Other",
+    "description": "Spawns an Inflatable Flamingo",
+    "unlock": "Destroy 50 cocaine flamingos",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "vapid-stanier-g2-taxi",
+    "title": "Vapid Stanier G2 Taxi",
+    "category": "Vehicles",
+    "subcategory": "Cars",
+    "description": "Spawns a Vapid Stanier G2 Taxi",
+    "unlock": "Complete 5 sports challenges",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "hauners-p-996-lazer",
+    "title": "Hauners P-996 Lazer",
+    "category": "Vehicles",
+    "subcategory": "Aircraft",
+    "description": "Spawns a Hauners P-996 Lazer",
+    "unlock": "Complete all challenges",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "lapwing-mallard",
+    "title": "Lapwing Mallard",
+    "category": "Vehicles",
+    "subcategory": "Aircraft",
+    "description": "Spawns a Lapwing Mallard",
+    "unlock": "Complete 5 vehicle challenges",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "brimstone-golfer",
+    "title": "Brimstone Golfer",
+    "category": "Vehicles",
+    "subcategory": "Other",
+    "description": "Spawns a Brimstone Golfer",
+    "unlock": "Complete all sports challenges",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "hauners-rhino-tank",
+    "title": "Hauners Rhino Tank",
+    "category": "Vehicles",
+    "subcategory": "Heavy & Emergency",
+    "description": "Spawns a Hauners Rhino Tank",
+    "unlock": "Complete all survival challenges",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "maibatsu-sanchez",
+    "title": "Maibatsu Sanchez",
+    "category": "Vehicles",
+    "subcategory": "Bikes",
+    "description": "Spawns a Maibatsu Sanchez",
+    "unlock": "Complete 5 criminal challenges",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "nagasaki-sea-sparrow",
+    "title": "Nagasaki Sea Sparrow",
+    "category": "Vehicles",
+    "subcategory": "Aircraft",
+    "description": "Spawns a Nagasaki Sea Sparrow",
+    "unlock": "Complete 5 exploration challenges",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "speeder-700-gt",
+    "title": "Speeder 700 GT",
+    "category": "Vehicles",
+    "subcategory": "Boats",
+    "description": "Spawns a Speeder 700 GT",
+    "unlock": "Complete 5 combat challenges",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "truffade-thrax",
+    "title": "Truffade Thrax",
+    "category": "Vehicles",
+    "subcategory": "Cars",
+    "description": "Spawns a Truffade Thrax",
+    "unlock": "Complete all shopping challenges",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "western-zombie-bobber",
+    "title": "Western Zombie Bobber",
+    "category": "Vehicles",
+    "subcategory": "Bikes",
+    "description": "Spawns a Western Zombie Bobber",
+    "unlock": "Complete all criminal challenges",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "cycle-weather",
+    "title": "Cycle Weather",
+    "category": "World",
+    "subcategory": "Weather & Time",
+    "description": "Changes the weather conditions",
+    "unlock": "Finish the story",
+    "input": [
+      "Down",
+      "Right",
+      "Up",
+      "Down",
+      "Right",
+      "Up",
+      "Right"
+    ],
+    "discovered": true,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "move-time-forward",
+    "title": "Move Time Forward",
+    "category": "World",
+    "subcategory": "Weather & Time",
+    "description": "Moves the time of day forward",
+    "unlock": "Find 10 collectible watches",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "pause-time-of-day",
+    "title": "Pause Time of Day",
+    "category": "World",
+    "subcategory": "Weather & Time",
+    "description": "Pauses the current time of day",
+    "unlock": "Find 20 collectible watches",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "cataclysm",
+    "title": "Cataclysm",
+    "category": "Screen Filters",
+    "subcategory": "Color",
+    "description": "Fills the world with murky smoke",
+    "unlock": "Discover Martha's Vamos in the Progress menu",
+    "input": [
+      "Down",
+      "Down",
+      "Up",
+      "Right",
+      "Right",
+      "Up",
+      "Left",
+      "Left",
+      "Right",
+      "Right"
+    ],
+    "discovered": true,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "dollhouse",
+    "title": "Dollhouse",
+    "category": "Screen Filters",
+    "subcategory": "Camera",
+    "description": "Applies a vivid filter with a narrow aspect ratio",
+    "unlock": "Spend 8 hours with your partner",
+    "input": [
+      "Down",
+      "Down",
+      "Up",
+      "Right",
+      "Right",
+      "Up",
+      "Left",
+      "Left",
+      "Down",
+      "Right"
+    ],
+    "discovered": true,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "faded-glory",
+    "title": "Faded Glory",
+    "category": "Screen Filters",
+    "subcategory": "Retro",
+    "description": "Applies a color CRT TV filter",
+    "unlock": "Rob 50 stores with your partner",
+    "input": [
+      "Down",
+      "Down",
+      "Up",
+      "Right",
+      "Right",
+      "Up",
+      "Left",
+      "Left",
+      "Left",
+      "Right"
+    ],
+    "discovered": true,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "golden-hour",
+    "title": "Golden Hour",
+    "category": "Screen Filters",
+    "subcategory": "Camera",
+    "description": "Applies a golden filter with a widescreen aspect ratio",
+    "unlock": "Spend 4 hours holding hands",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "powdered-sugar",
+    "title": "Powdered Sugar",
+    "category": "Screen Filters",
+    "subcategory": "Color",
+    "description": "Turns the world white with sparkling highlights",
+    "unlock": "Scan all space debris with WAiNK",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "pinhole",
+    "title": "Pinhole",
+    "category": "Screen Filters",
+    "subcategory": "Camera",
+    "description": "Applies a pinhole camera filter",
+    "unlock": "Clear 25 gang operations with your partner",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "neon-jungle",
+    "title": "Neon Jungle",
+    "category": "Screen Filters",
+    "subcategory": "Color",
+    "description": "Applies neon highlights to the world",
+    "unlock": "Discover all 16 Girlypop Vehicles",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "yesteryear",
+    "title": "Yesteryear",
+    "category": "Screen Filters",
+    "subcategory": "Retro",
+    "description": "Applies a black & white CRT TV filter",
+    "unlock": "Discover the Ridgeway",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "videotape",
+    "title": "Videotape",
+    "category": "Screen Filters",
+    "subcategory": "Retro",
+    "description": "Applies a videotape-style filter",
+    "unlock": "Complete 50 activities with your partner",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "dark-mirror",
+    "title": "Dark Mirror",
+    "category": "Screen Filters",
+    "subcategory": "Warped",
+    "description": "Flips the world upside down and turns it black",
+    "unlock": "Make $500,000 selling vehicles",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "migraine",
+    "title": "Migraine",
+    "category": "Screen Filters",
+    "subcategory": "Warped",
+    "description": "Applies a blurred, distorted filter",
+    "unlock": "Survive 6 minutes with a 6-star wanted level",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "bubblegum",
+    "title": "Bubblegum",
+    "category": "Screen Filters",
+    "subcategory": "Color",
+    "description": "Turns the world purple and yellow with sparkling highlights",
+    "unlock": "Find all 24 collectible cards for the Vice City Flamingos",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "fast-forward",
+    "title": "Fast Forward",
+    "category": "Screen Filters",
+    "subcategory": "Warped",
+    "description": "Applies a motion blur and accelerates cloud movements",
+    "unlock": "Complete 50 meditations",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "fisheye",
+    "title": "Fisheye",
+    "category": "Screen Filters",
+    "subcategory": "Camera",
+    "description": "Applies a fisheye filter",
+    "unlock": "Catch 100 fish",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "pixel-art",
+    "title": "Pixel Art",
+    "category": "Screen Filters",
+    "subcategory": "Retro",
+    "description": "Applies a pixelated filter",
+    "unlock": "Make $250,000 selling collectibles",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  },
+  {
+    "id": "hellscape",
+    "title": "Hellscape",
+    "category": "Screen Filters",
+    "subcategory": "Color",
+    "description": "Turns the world red and orange with a heat haze",
+    "unlock": "Steal 100 cop vehicles",
+    "input": [],
+    "discovered": false,
+    "platforms": [
+      "ps5",
+      "xbox"
+    ]
+  }
+]

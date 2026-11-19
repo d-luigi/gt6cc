@@ -1,0 +1,10 @@
+# Installed dependencies and generated frontend build
+node_modules/
+frontend/dist/
+
+# Local comments and runtime files
+data/comments.json
+*.sqlite3
+*.sqlite3-*
+*.tmp
+__pycache__/

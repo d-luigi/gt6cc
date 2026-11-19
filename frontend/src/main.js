@@ -1,26 +1,46 @@
 import './style.css';
 import { initScene } from './scene.js';
+import { h } from './dom.js';
+import { ARROW, CONSOLES, createDemo } from './demo.js';
+import { availableTypes, matchesCheat } from './filters.js';
 
-const scene = initScene(document.getElementById('bg'));
+const canvas = document.getElementById('bg');
+let scene = { setAccent() {}, pulse() {} };
+try {
+  scene = initScene(canvas);
+} catch {
+  canvas.classList.add('scene-fallback');
+}
+const player = document.getElementById('demo-player');
+let stopPlayer = () => {};
+
+function openPlayer(cheat) {
+  stopPlayer();
+  const { view, stop } = createDemo(cheat, true);
+  stopPlayer = stop;
+  player.style.setProperty('--c', color(cheat.category));
+  document.getElementById('demo-title').textContent = cheat.title;
+  document.getElementById('demo-body').replaceChildren(view);
+  if (!player.open) player.showModal();
+  player.scrollTop = 0;
+}
+player.addEventListener('close', () => stopPlayer());
+player.addEventListener('click', event => {
+  if (event.target !== player) return;
+  const box = player.getBoundingClientRect();
+  if (event.clientX < box.left || event.clientX > box.right ||
+      event.clientY < box.top || event.clientY > box.bottom) player.close();
+});
 const $ = (s) => document.querySelector(s);
 const state = { cheats: [], q: '', category: new Set(), sub: new Set(), status: new Set() };
 
-const ARROW = { Up: '↑', Down: '↓', Left: '←', Right: '→' };
-const CONSOLES = [['PS5', 'L1 + R1'], ['Xbox', 'LB + RB']];
 const STATUS = [['discovered', 'Discovered'], ['undiscovered', 'Not Yet Discovered']];
 
-// Tiny DOM helper. Everything uses textContent, so comment text is never parsed as HTML.
-const h = (tag, props = {}, ...kids) => {
-  const el = Object.assign(document.createElement(tag), props);
-  el.append(...kids.flat().filter(Boolean));
-  return el;
-};
 const color = (cat) => {
   let n = 0;
   for (const c of cat) n = (n * 31 + c.charCodeAt(0)) % 360;
   return `hsl(${n}, 70%, 62%)`;
 };
-let stopDemo = () => {};
 const uniq = (a) => [...new Set(a)];
 const keys = (input) => h('span', { className: 'keys' }, input.map((k) => h('kbd', { textContent: ARROW[k] || k })));
 
@@ -37,7 +57,7 @@ function toggleFilter(key, v) {
   if (set.has(v)) set.delete(v); else set.add(v);
   if (key === 'category') {
     // Drop selected types that no longer belong to a selected category.
-    const valid = new Set(state.cheats.filter((c) => state.category.has(c.category)).map((c) => c.subcategory));
+    const valid = new Set(availableTypes(state.cheats, state.category));
     state.sub = new Set([...state.sub].filter((x) => valid.has(x)));
   }
   drawFilters();
@@ -69,7 +89,7 @@ function drawFilters() {
   const all = state.cheats;
   const cats = uniq(all.map((c) => c.category));
   chips($('#cats'), cats.map((c) => [c, `${c} · ${all.filter((x) => x.category === c).length}`]), 'category');
-  const subs = uniq(all.filter((c) => state.category.has(c.category)).map((c) => c.subcategory));
+  const subs = availableTypes(all, state.category);
   $('#subs-row').hidden = !subs.length;
   chips($('#subs'), subs.map((x) => [x, x]), 'sub');
   chips($('#status'), STATUS, 'status');
@@ -89,18 +109,8 @@ function drawFilters() {
   );
 }
 
-function matches(c) {
-  const q = state.q.toLowerCase();
-  return (
-    (!state.category.size || state.category.has(c.category)) &&
-    (!state.sub.size || state.sub.has(c.subcategory)) &&
-    (!state.status.size || state.status.has(c.discovered ? 'discovered' : 'undiscovered')) &&
-    (!q || `${c.title} ${c.description} ${c.unlock}`.toLowerCase().includes(q))
-  );
-}
-
 function render() {
-  const list = state.cheats.filter(matches);
+  const list = state.cheats.filter(cheat => matchesCheat(cheat, state));
   $('#results').textContent = `${list.length} cheat${list.length === 1 ? '' : 's'}`;
   $('#grid').replaceChildren(
     ...(list.length ? list.map(card) : [h('p', { className: 'empty', textContent: 'No cheats match.' })])
@@ -119,7 +129,7 @@ function card(c) {
     h('p', { className: 'unlock', textContent: `Unlock: ${c.unlock}` }),
     c.discovered
       ? h('div', { className: 'card-foot' },
-          h('button', { className: 'ctl', textContent: '▶  Watch demo', onclick: (e) => { e.stopPropagation(); openDrawer(c, true); } }))
+          h('button', { className: 'ctl', type: 'button', textContent: '▶  Watch demo', ariaLabel: 'Watch demo for ' + c.title, onclick: (e) => { e.stopPropagation(); openPlayer(c); } }))
       : null
   );
   el.style.setProperty('--c', col);
@@ -131,150 +141,24 @@ function card(c) {
 }
 
 function closeDrawer() {
-  stopDemo();
   $('#drawer').classList.remove('open');
   $('#backdrop').classList.remove('open');
+  $('#drawer').inert = true;
+  drawerTrigger?.focus();
+  drawerTrigger = null;
 }
 
-const SPEEDS = [['0.25×', 0.25], ['0.5×', 0.5], ['1×', 1], ['2×', 2]];
-const restart = (el, cls) => { el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); };
-
-// Step-by-step animated walkthrough of the button presses.
-function demo(c, autoplay = false) {
-  const st = { i: -1, playing: false, speed: 0.5, con: 0, pressed: '', held: false, next: 0, rel: 0 };
-  const steps = () => [
-    { text: 'Press Up on the D-pad to open your phone', dir: 'Up', held: false },
-    { text: `Now hold ${CONSOLES[st.con][1]}`, dir: '', held: true },
-    ...c.input.map((d) => ({ text: `Press ${d}`, dir: d, held: true })),
-  ];
-  const dur = () => 1000 / st.speed;
-
-  const pad = {};
-  const dpad = h('div', { className: 'dpad' },
-    ['Up', 'Left', 'Right', 'Down'].map((d) => (pad[d] = h('span', { className: 'pad ' + d.toLowerCase(), textContent: ARROW[d] }))));
-  const sh = [h('span', { className: 'sh' }), h('span', { className: 'sh' })];
-  const seq = c.input.map((d) => h('kbd', { textContent: ARROW[d] }));
-  const fill = h('div', { className: 'fill' });
-  const caption = h('p', { className: 'caption' });
-  const playBtn = h('button', { className: 'ctl play', onclick: toggle });
-
-  function paint() {
-    const list = steps(), s = list[st.i];
-    Object.entries(pad).forEach(([d, el]) => el.classList.toggle('on', st.pressed === d));
-    CONSOLES[st.con][1].split(' + ').forEach((t, n) => (sh[n].textContent = t));
-    sh.forEach((el) => el.classList.toggle('on', st.held));
-    seq.forEach((k, n) => {
-      k.classList.toggle('cur', st.i - 2 === n);
-      k.classList.toggle('done', st.i - 2 > n);
-    });
-    fill.style.width = `${((st.i + 1) / list.length) * 100}%`;
-    caption.textContent = s ? `Step ${st.i + 1} of ${list.length}: ${s.text}` : 'Press play to watch the sequence.';
-    playBtn.textContent = st.playing ? 'Pause' : st.i >= list.length - 1 ? 'Replay' : 'Play';
-  }
-  // Press a step, then release the D-pad shortly after so repeated
-  // directions (Up, Up, Up) are visibly separate presses.
-  function press(i) {
-    clearTimeout(st.rel);
-    st.i = i;
-    const s = steps()[i];
-    st.pressed = s.dir;
-    st.held = s.held;
-    paint();
-    if (s.dir) restart(pad[s.dir], 'hit');
-    restart(caption, 'swap');
-    st.rel = setTimeout(() => {
-      st.pressed = '';
-      if (st.i === steps().length - 1) st.held = false;
-      paint();
-    }, Math.min(dur() * 0.6, 1200));
-  }
-  function tick() {
-    if (st.i >= steps().length - 1) { st.playing = false; paint(); return; }
-    press(st.i + 1);
-    st.next = setTimeout(tick, dur());
-  }
-  function toggle() {
-    clearTimeout(st.next);
-    if (st.playing) { st.playing = false; paint(); return; }
-    if (st.i >= steps().length - 1) { st.i = -1; st.pressed = ''; st.held = false; }
-    st.playing = true;
-    tick();
-  }
-  function go(delta) {
-    clearTimeout(st.next);
-    st.playing = false;
-    const i = Math.max(-1, Math.min(steps().length - 1, st.i + delta));
-    if (i < 0) { clearTimeout(st.rel); st.i = -1; st.pressed = ''; st.held = false; paint(); }
-    else press(i);
-  }
-  const group = (opts, cur, set) => {
-    const box = h('div', { className: 'chips small' });
-    const draw = () =>
-      box.replaceChildren(...opts.map(([label, v]) =>
-        h('button', { className: 'chip' + (cur() === v ? ' on' : ''), textContent: label, onclick: () => { set(v); draw(); paint(); } })));
-    draw();
-    return box;
-  };
-
-  stopDemo = () => {
-    clearTimeout(st.next);
-    clearTimeout(st.rel);
-    st.playing = false;
-    st.pressed = '';
-    paint();
-  };
-  paint();
-  if (autoplay) toggle();
-  return h('div', { className: 'demo' },
-    h('div', { className: 'stage' }, h('div', { className: 'shoulders' }, sh), dpad),
-    h('div', { className: 'track' }, fill),
-    caption,
-    h('span', { className: 'keys' }, seq),
-    h('div', { className: 'ctls' },
-      h('button', { className: 'ctl', textContent: '‹', ariaLabel: 'Previous step', onclick: () => go(-1) }),
-      playBtn,
-      h('button', { className: 'ctl', textContent: '›', ariaLabel: 'Next step', onclick: () => go(1) })),
-    h('div', { className: 'opt' }, h('span', { className: 'label', textContent: 'Speed' }), group(SPEEDS, () => st.speed, (v) => (st.speed = v))),
-    h('div', { className: 'opt' }, h('span', { className: 'label', textContent: 'Console' }), group(CONSOLES.map(([n], i) => [n, i]), () => st.con, (v) => (st.con = v))));
-}
-
-// The demo is only built and shown when the user asks for it.
-function demoToggle(c, startOpen = false) {
-  const inner = h('div', { className: 'demo-inner' });
-  const wrap = h('div', { className: 'demo-wrap' }, inner);
-  wrap.inert = true;
-  const btn = h('button', { className: 'ctl watch', textContent: '▶  Watch demo' });
-  let built = false, open = false;
-  btn.onclick = () => {
-    open = !open;
-    if (open && !built) { inner.append(demo(c)); built = true; }
-    if (!open) stopDemo();
-    wrap.inert = !open;
-    wrap.classList.toggle('open', open);
-    btn.textContent = open ? 'Hide demo' : '▶  Watch demo';
-  };
-  if (startOpen) {
-    // Opened from the card's own "Watch demo" button: show it and start playing.
-    open = built = true;
-    inner.append(demo(c, true));
-    wrap.inert = false;
-    btn.textContent = 'Hide demo';
-    setTimeout(() => wrap.classList.add('open'), 60);
-    setTimeout(() => wrap.scrollIntoView({ behavior: 'smooth', block: 'center' }), 450);
-  }
-  return h('div', {}, btn, wrap);
-}
-
-async function openDrawer(c, withDemo = false) {
-  stopDemo();
+let drawerTrigger = null;
+function openDrawer(c) {
+  drawerTrigger = document.activeElement;
   const col = color(c.category);
   scene.setAccent(col);
   scene.pulse();
 
   const list = h('div', { className: 'comments' });
   const msg = h('p', { className: 'msg' });
-  const author = h('input', { placeholder: 'Name (optional)', maxLength: 40 });
-  const body = h('textarea', { placeholder: 'Share a tip…', maxLength: 1000, required: true });
+  const author = h('input', { placeholder: 'Name (optional)', ariaLabel: 'Name (optional)', maxLength: 40 });
+  const body = h('textarea', { placeholder: 'Share a tip…', ariaLabel: 'Comment', maxLength: 1000, required: true });
   const hp = h('input', { className: 'hp', name: 'website', tabIndex: -1, autocomplete: 'off' });
   const form = h('form', { className: 'cform' }, author, body, hp, h('button', { textContent: 'Post comment' }), msg);
 
@@ -292,9 +176,11 @@ async function openDrawer(c, withDemo = false) {
   const path = `/cheats/${encodeURIComponent(c.id)}/comments`;
   api(path).then(showComments).catch((e) => { msg.textContent = e.message; });
 
+  const submit = form.querySelector('button');
   form.onsubmit = async (e) => {
     e.preventDefault();
     msg.textContent = '';
+    submit.disabled = true;
     try {
       const res = await api(path, {
         method: 'POST',
@@ -303,9 +189,11 @@ async function openDrawer(c, withDemo = false) {
       });
       body.value = '';
       if (res.status === 'pending approval') msg.textContent = 'Thanks! Your comment is awaiting approval.';
-      else showComments(await api(path));
+      else showComments(Array.isArray(res) ? res : await api(path));
     } catch (err) {
       msg.textContent = err.message;
+    } finally {
+      submit.disabled = false;
     }
   };
 
@@ -316,7 +204,7 @@ async function openDrawer(c, withDemo = false) {
           h('div', { className: 'console' },
             h('div', {}, h('b', { textContent: name }), h('span', { textContent: ` · Hold ${hold}, then` })),
             keys(c.input))),
-        demoToggle(c, withDemo))
+        h('button', { className: 'ctl watch', type: 'button', textContent: 'Watch demo', onclick: () => openPlayer(c) }))
     : h('p', { className: 'undisc', textContent: 'Not yet discovered. Nobody has found this input yet.' });
 
   $('#drawer').style.setProperty('--c', col);
@@ -333,7 +221,9 @@ async function openDrawer(c, withDemo = false) {
     list,
     form
   );
+  $('#drawer').inert = false;
   $('#drawer').classList.add('open');
+  $('#drawer .close').focus();
   $('#backdrop').classList.add('open');
 }
 
@@ -353,18 +243,18 @@ async function init() {
   });
   $('#backdrop').onclick = closeDrawer;
   addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') { closeDrawer(); setPanel(false); }
+    if (e.key === 'Escape' && !player.open) { closeDrawer(); setPanel(false); }
   });
 
   try {
-    state.cheats = await api('/cheats');
+    state.cheats = JSON.parse($('#cheat-data').textContent);
     const found = state.cheats.filter((c) => c.discovered).length;
-    $('#count').textContent = `${found} of ${state.cheats.length} discovered.`;
+    $('#count').textContent = `${found} of ${state.cheats.length} have reported codes.`;
     drawFilters();
     render();
   } catch (e) {
     $('#grid').replaceChildren(
-      h('p', { className: 'empty', textContent: `Could not reach the backend (${e.message}). Is it running on :8080?` })
+      h('p', { className: 'empty', textContent: 'Could not load the cheat directory.' })
     );
   }
 }

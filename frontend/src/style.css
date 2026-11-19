@@ -126,3 +126,30 @@ kbd.done { opacity: .35; }
 .card-foot { margin-top: auto; padding-top: 14px; }
 .card-foot .ctl { width: 100%; }
 .panel .hint { margin: 0; }
+
+.scene-fallback {
+  background: radial-gradient(ellipse at 45% 78%, #20204d, transparent 64%);
+}
+
+#demo-player {
+  --c: var(--accent);
+  width: min(34rem, calc(100% - 2rem));
+  max-height: calc(100% - 2rem);
+  padding: clamp(.8rem, 3vw, 1.4rem);
+  overflow: auto;
+  background: #12121e;
+  color: #eceaf5;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  box-shadow: 0 1.4rem 4rem #000a;
+}
+#demo-player::backdrop { background: #080811cb; }
+.demo-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+.demo-heading h2 { margin: .15rem 0 0; font-size: clamp(1.25rem, 5vw, 1.8rem); }
+#demo-player .chip.on { background: var(--c); border-color: var(--c); color: #0b0b14; }
+#demo-player .small .chip { font-size: .875rem; }
+@media (max-width: 400px) {
+  #demo-player .stage { padding: .75rem; }
+  #demo-player .dpad { grid-template: repeat(3, 37px) / repeat(3, 37px); }
+  #demo-player .ctls .ctl { padding-inline: .6rem; }
+}
