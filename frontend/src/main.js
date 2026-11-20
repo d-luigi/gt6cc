@@ -9,7 +9,7 @@ const ARROW = { Up: '↑', Down: '↓', Left: '←', Right: '→' };
 const CONSOLES = [['PS5', 'L1 + R1'], ['Xbox', 'LB + RB']];
 const STATUS = [['discovered', 'Discovered'], ['undiscovered', 'Not Yet Discovered']];
 
-// Tiny DOM helper. Everything uses textContent, so comment text is never parsed as HTML.
+// Tiny DOM helper. Everything uses textContent, so cheat text is never parsed as HTML.
 const h = (tag, props = {}, ...kids) => {
   const el = Object.assign(document.createElement(tag), props);
   el.append(...kids.flat().filter(Boolean));
@@ -119,7 +119,7 @@ function card(c) {
     h('p', { className: 'unlock', textContent: `Unlock: ${c.unlock}` }),
     c.discovered
       ? h('div', { className: 'card-foot' },
-          h('button', { className: 'ctl', textContent: '▶  Watch demo', onclick: (e) => { e.stopPropagation(); openDrawer(c, true); } }))
+          h('button', { className: 'ctl', textContent: '▶  Watch demo', onclick: (e) => { e.stopPropagation(); openModal(c); } }))
       : null
   );
   el.style.setProperty('--c', col);
@@ -238,8 +238,8 @@ function demo(c, autoplay = false) {
     h('div', { className: 'opt' }, h('span', { className: 'label', textContent: 'Console' }), group(CONSOLES.map(([n], i) => [n, i]), () => st.con, (v) => (st.con = v))));
 }
 
-// The demo is only built and shown when the user asks for it.
-function demoToggle(c, startOpen = false) {
+// Inside the drawer the demo is only built and shown when the user asks for it.
+function demoToggle(c) {
   const inner = h('div', { className: 'demo-inner' });
   const wrap = h('div', { className: 'demo-wrap' }, inner);
   wrap.inert = true;
@@ -253,61 +253,14 @@ function demoToggle(c, startOpen = false) {
     wrap.classList.toggle('open', open);
     btn.textContent = open ? 'Hide demo' : '▶  Watch demo';
   };
-  if (startOpen) {
-    // Opened from the card's own "Watch demo" button: show it and start playing.
-    open = built = true;
-    inner.append(demo(c, true));
-    wrap.inert = false;
-    btn.textContent = 'Hide demo';
-    setTimeout(() => wrap.classList.add('open'), 60);
-    setTimeout(() => wrap.scrollIntoView({ behavior: 'smooth', block: 'center' }), 450);
-  }
   return h('div', {}, btn, wrap);
 }
 
-async function openDrawer(c, withDemo = false) {
+function openDrawer(c) {
   stopDemo();
   const col = color(c.category);
   scene.setAccent(col);
   scene.pulse();
-
-  const list = h('div', { className: 'comments' });
-  const msg = h('p', { className: 'msg' });
-  const author = h('input', { placeholder: 'Name (optional)', maxLength: 40 });
-  const body = h('textarea', { placeholder: 'Share a tip…', maxLength: 1000, required: true });
-  const hp = h('input', { className: 'hp', name: 'website', tabIndex: -1, autocomplete: 'off' });
-  const form = h('form', { className: 'cform' }, author, body, hp, h('button', { textContent: 'Post comment' }), msg);
-
-  const showComments = (items) =>
-    list.replaceChildren(
-      ...(items.length
-        ? items.map((m) =>
-            h('div', { className: 'comment' },
-              h('b', { textContent: m.author }),
-              h('time', { textContent: new Date(m.createdAt).toLocaleString() }),
-              h('p', { textContent: m.body }))
-          )
-        : [h('p', { className: 'empty', textContent: 'No comments yet. Be the first.' })])
-    );
-  const path = `/cheats/${encodeURIComponent(c.id)}/comments`;
-  api(path).then(showComments).catch((e) => { msg.textContent = e.message; });
-
-  form.onsubmit = async (e) => {
-    e.preventDefault();
-    msg.textContent = '';
-    try {
-      const res = await api(path, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ author: author.value, body: body.value, website: hp.value }),
-      });
-      body.value = '';
-      if (res.status === 'pending approval') msg.textContent = 'Thanks! Your comment is awaiting approval.';
-      else showComments(await api(path));
-    } catch (err) {
-      msg.textContent = err.message;
-    }
-  };
 
   const how = c.discovered
     ? h('div', { className: 'how' },
@@ -316,7 +269,7 @@ async function openDrawer(c, withDemo = false) {
           h('div', { className: 'console' },
             h('div', {}, h('b', { textContent: name }), h('span', { textContent: ` · Hold ${hold}, then` })),
             keys(c.input))),
-        demoToggle(c, withDemo))
+        demoToggle(c))
     : h('p', { className: 'undisc', textContent: 'Not yet discovered. Nobody has found this input yet.' });
 
   $('#drawer').style.setProperty('--c', col);
@@ -328,13 +281,38 @@ async function openDrawer(c, withDemo = false) {
     h('h2', { textContent: c.title }),
     h('p', { textContent: c.description }),
     h('p', { className: 'unlock', textContent: `Unlock: ${c.unlock}` }),
-    how,
-    h('h4', { textContent: 'Comments' }),
-    list,
-    form
+    how
   );
   $('#drawer').classList.add('open');
   $('#backdrop').classList.add('open');
+}
+
+// "Watch demo" on a card: the demo opens as a popup in the middle of the screen and starts playing.
+function openModal(c) {
+  stopDemo();
+  const col = color(c.category);
+  scene.setAccent(col);
+  scene.pulse();
+  const m = $('#modal');
+  m.style.setProperty('--c', col);
+  $('#modal-card').replaceChildren(
+    h('button', { className: 'close', textContent: '×', ariaLabel: 'Close', onclick: closeModal }),
+    h('div', { className: 'top' },
+      h('span', { className: 'tag', textContent: c.category }),
+      h('span', { className: 'subtag', textContent: c.subcategory })),
+    h('h2', { textContent: c.title }),
+    demo(c, true)
+  );
+  m.hidden = false;
+  requestAnimationFrame(() => m.classList.add('open'));
+}
+
+function closeModal() {
+  const m = $('#modal');
+  if (m.hidden) return;
+  stopDemo();
+  m.classList.remove('open');
+  setTimeout(() => { if (!m.classList.contains('open')) m.hidden = true; }, 220);
 }
 
 async function init() {
@@ -352,8 +330,9 @@ async function init() {
     if (!e.composedPath().includes($('.filter-wrap'))) setPanel(false);
   });
   $('#backdrop').onclick = closeDrawer;
+  $('#modal').onclick = (e) => { if (e.target === e.currentTarget) closeModal(); };
   addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') { closeDrawer(); setPanel(false); }
+    if (e.key === 'Escape') { closeModal(); closeDrawer(); setPanel(false); }
   });
 
   try {

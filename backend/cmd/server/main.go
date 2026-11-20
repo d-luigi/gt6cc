@@ -12,33 +12,20 @@ import (
 
 	"gta6cc/backend/internal/api"
 	"gta6cc/backend/internal/cheats"
-	"gta6cc/backend/internal/comments"
 )
 
 func main() {
 	port := env("PORT", "8080")
-	commentsFile := env("COMMENTS_FILE", "data/comments.json")
 	allowedOrigin := env("ALLOWED_ORIGIN", "http://localhost:5173")
-	requireApproval := env("COMMENTS_REQUIRE_APPROVAL", "false") == "true"
 
 	repo, err := cheats.Load()
 	if err != nil {
 		log.Fatalf("load cheats: %v", err)
 	}
 
-	// To switch to SQLite later, replace this one line with another
-	// implementation of comments.Store.
-	store, err := comments.NewFileStore(commentsFile)
-	if err != nil {
-		log.Fatalf("open comments store: %v", err)
-	}
-
 	srv := &http.Server{
-		Addr: ":" + port,
-		Handler: api.New(repo, store, api.Config{
-			AllowedOrigin:   allowedOrigin,
-			RequireApproval: requireApproval,
-		}),
+		Addr:              ":" + port,
+		Handler:           api.New(repo, api.Config{AllowedOrigin: allowedOrigin}),
 		ReadHeaderTimeout: 5 * time.Second,
 		ReadTimeout:       10 * time.Second,
 		WriteTimeout:      10 * time.Second,
