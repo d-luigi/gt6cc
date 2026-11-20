@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GTA VI Cheats</title>
+  <script type="module" crossorigin src="/assets/index-D9TeXYf7.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-DTehGSD7.css">
+</head>
+<body>
+  <canvas id="bg"></canvas>
+  <main>
+    <header class="hero">
+      <h1>GTA VI Cheats</h1>
+      <p class="sub">Codes, unlock requirements and how to enter them.</p>
+    </header>
+    <p class="note">Finish the story to use cheats. Using one disables trophies and saving for that session. <span id="count"></span></p>
+    <section class="bar">
+      <div class="search">
+        <input id="q" type="search" placeholder="Search cheats…" aria-label="Search cheats" />
+        <div class="filter-wrap">
+          <button id="filter-btn" class="fbtn" aria-expanded="false" aria-controls="filters">Filters <span id="fcount" class="badge" hidden></span></button>
+          <div id="filters" class="panel" hidden>
+            <p class="hint">Select as many as you like.</p>
+            <div class="group"><span class="label">Category</span><div id="cats" class="chips"></div></div>
+            <div class="group" id="subs-row" hidden><span class="label">Type</span><div id="subs" class="chips"></div></div>
+            <div class="group"><span class="label">Status</span><div id="status" class="chips"></div></div>
+            <button id="clear" class="linkbtn">Clear all</button>
+          </div>
+        </div>
+      </div>
+      <div id="active" class="chips"></div>
+    </section>
+    <p id="results" class="note"></p>
+    <section id="grid" class="grid" aria-live="polite"></section>
+  </main>
+  <div id="backdrop"></div>
+  <div id="modal" class="modal" hidden><div id="modal-card" class="modal-card"></div></div>
+  <aside id="drawer" class="drawer" aria-label="Cheat details"></aside>
+</body>
+</html>
